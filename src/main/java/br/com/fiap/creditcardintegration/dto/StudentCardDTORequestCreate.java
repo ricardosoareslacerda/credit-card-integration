@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentCardDTO {
+public class StudentCardDTORequestCreate {
 
   @JsonProperty("registrationsNumberCard")
   private String registrationsNumberCard;
@@ -33,18 +33,9 @@ public class StudentCardDTO {
   private String mail;
 
   @Schema(description = "")
-  @JsonProperty("active")
-  private Boolean active;
-
-  @Schema(description = "")
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @JsonProperty("createdAt")
   private String createdAt;
-
-  @Schema(description = "")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-  @JsonProperty("updatedAt")
-  private String updatedAt;
 
   @Override
   public String toString() {
@@ -55,9 +46,7 @@ public class StudentCardDTO {
     sb.append("    registration: ").append(toIndentedString(registration)).append("\n");
     sb.append("    registrationsNumberCard: ").append(toIndentedString(registrationsNumberCard)).append("\n");
     sb.append("    mail: ").append(toIndentedString(mail)).append("\n");
-    sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }

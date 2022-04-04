@@ -1,6 +1,7 @@
 package br.com.fiap.creditcardintegration.service;
 
 import br.com.fiap.creditcardintegration.dto.StudentCardDTO;
+import br.com.fiap.creditcardintegration.dto.StudentCardDTORequestCreate;
 import br.com.fiap.creditcardintegration.dto.StudentsCardsDTO;
 import br.com.fiap.creditcardintegration.model.StudentCard;
 import br.com.fiap.creditcardintegration.repository.StudentsCardRepository;
@@ -19,8 +20,9 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     private final StudentsCardRepository studentsCardRepository;
 
     @Override
-    public StudentCardDTO createStudentCard(final StudentCardDTO studentCardDTO) {
+    public StudentCardDTO createStudentCard(final StudentCardDTORequestCreate studentCardDTO) {
         final StudentCard studentCard = objectMapper.convertValue(studentCardDTO, StudentCard.class);
+        studentCard.setCreatedAt(Long.toString(System.currentTimeMillis()));
         final StudentCard savedStudentCard = studentsCardRepository.save(studentCard);
         return objectMapper.convertValue(savedStudentCard, StudentCardDTO.class);
     }
@@ -49,6 +51,7 @@ public class StudentsCardServiceImpl implements StudentsCardService {
         Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
         if (savedStudentCard.isPresent()) {
             savedStudentCard.get().setActive(studentCard.getActive());
+            studentCard.setUpdatedAt(Long.toString(System.currentTimeMillis()));
         }
 
         final StudentCard updatedStudentCard = studentsCardRepository.save(savedStudentCard.get());

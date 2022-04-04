@@ -1,12 +1,12 @@
 package br.com.fiap.creditcardintegration.api;
 
 import br.com.fiap.creditcardintegration.dto.StudentCardDTO;
+import br.com.fiap.creditcardintegration.dto.StudentCardDTORequestCreate;
 import br.com.fiap.creditcardintegration.dto.StudentsCardsDTO;
 import br.com.fiap.creditcardintegration.service.StudentsCardService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +28,9 @@ public class StudentsCardsApiController implements StudentsCardsApi {
 
     private final StudentsCardService studentsCardService;
 
-    public ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO) {
+    public ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @RequestBody StudentCardDTORequestCreate studentCardDTORequestCreate) {
 
-        return new ResponseEntity<StudentCardDTO>(studentsCardService.createStudentCard(studentCardDTO), HttpStatus.OK);
+        return new ResponseEntity<StudentCardDTO>(studentsCardService.createStudentCard(studentCardDTORequestCreate), HttpStatus.OK);
         //return new ResponseEntity<StudentCardDTO>(objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n  \"registrationsNumberCard\" : \"registrationsNumberCard\",\n  \"mail\" : \"mail\",\n  \"fullName\" : \"fullName\",\n  \"active\" : true,\n  \"registration\" : \"registration\",\n  \"id\" : \"id\",\n  \"updatedAt\" : \"updatedAt\"\n}", StudentCardDTO.class), HttpStatus.NOT_IMPLEMENTED);
     }
 

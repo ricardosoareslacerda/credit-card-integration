@@ -10,6 +10,7 @@ import br.com.fiap.creditcardintegration.api.response.InvalidateError;
 import br.com.fiap.creditcardintegration.api.response.NotFoundError;
 import br.com.fiap.creditcardintegration.api.response.NotPermitionError;
 import br.com.fiap.creditcardintegration.dto.CardTransactionDTO;
+import br.com.fiap.creditcardintegration.dto.CardTransactionDTORequestCreate;
 import br.com.fiap.creditcardintegration.dto.CardTransactionsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,7 +41,7 @@ public interface CardTransactionsApi {
             produces = {"application/json", "application/xml"},
             consumes = {"application/json", "application/xml"},
             method = RequestMethod.POST)
-    ResponseEntity<CardTransactionDTO> createCardtransaction(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody CardTransactionDTO cardTransaction);
+    ResponseEntity<CardTransactionDTO> createCardtransaction(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody CardTransactionDTORequestCreate cardTransactionDTORequestCreate);
 
     @Operation(summary = "Cancela uma transação do cartão de crédito", description = "", tags={ "card-transactions" })
     @ApiResponses(value = {

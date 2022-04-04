@@ -1,6 +1,7 @@
 package br.com.fiap.creditcardintegration.service;
 
 import br.com.fiap.creditcardintegration.dto.CardTransactionDTO;
+import br.com.fiap.creditcardintegration.dto.CardTransactionDTORequestCreate;
 import br.com.fiap.creditcardintegration.dto.CardTransactionsDTO;
 import br.com.fiap.creditcardintegration.model.CardTransaction;
 import br.com.fiap.creditcardintegration.repository.CardTransactionRepository;
@@ -18,10 +19,14 @@ public class CardTransactionServiceImpl implements CardTransactionService {
     private final CardTransactionRepository cardTransactionRepository;
 
     @Override
-    public CardTransactionDTO createCardtransaction(final CardTransactionDTO cardTransactionDTO) {
+    public CardTransactionDTO createCardtransaction(final CardTransactionDTORequestCreate cardTransactionDTORequestCreate) {
         try {
-            final CardTransaction cardTransaction = objectMapper.convertValue(cardTransactionDTO, CardTransaction.class);
+            final CardTransaction cardTransaction = objectMapper.convertValue(cardTransactionDTORequestCreate, CardTransaction.class);
+            cardTransaction.setStatus("PENDING");
+            cardTransaction.setCreatedAt(Long.toString(System.currentTimeMillis()));
+
             final CardTransaction savedTransaction = cardTransactionRepository.save(cardTransaction);
+
             return objectMapper.convertValue(savedTransaction, CardTransactionDTO.class);
         }
         catch (Exception e) {

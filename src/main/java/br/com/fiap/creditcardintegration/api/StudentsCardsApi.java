@@ -7,6 +7,7 @@ package br.com.fiap.creditcardintegration.api;
 
 import br.com.fiap.creditcardintegration.api.response.*;
 import br.com.fiap.creditcardintegration.dto.StudentCardDTO;
+import br.com.fiap.creditcardintegration.dto.StudentCardDTORequestCreate;
 import br.com.fiap.creditcardintegration.dto.StudentsCardsDTO;
 import br.com.fiap.creditcardintegration.model.StudentCard;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +35,7 @@ public interface StudentsCardsApi {
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO);
+    ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCardDTORequestCreate studentCardDTORequestCreate);
 
     @Operation(summary = "Delete um cartão de aluno", description = "", tags={ "students-cards" })
     @ApiResponses(value = {

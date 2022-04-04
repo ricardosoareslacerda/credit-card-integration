@@ -1,6 +1,7 @@
 package br.com.fiap.creditcardintegration.api;
 
 import br.com.fiap.creditcardintegration.dto.CardTransactionDTO;
+import br.com.fiap.creditcardintegration.dto.CardTransactionDTORequestCreate;
 import br.com.fiap.creditcardintegration.dto.CardTransactionsDTO;
 import br.com.fiap.creditcardintegration.service.CardTransactionService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 
 @RestController
@@ -26,8 +26,8 @@ public class CardTransactionsApiController implements CardTransactionsApi {
 
     private final CardTransactionService cardTransactionService;
 
-    public ResponseEntity<CardTransactionDTO> createCardtransaction(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody final CardTransactionDTO cardTransaction) {
-        return new ResponseEntity<CardTransactionDTO>(cardTransactionService.createCardtransaction(cardTransaction), HttpStatus.OK);
+    public ResponseEntity<CardTransactionDTO> createCardtransaction(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @RequestBody final CardTransactionDTORequestCreate cardTransactionDTORequestCreate) {
+        return new ResponseEntity<CardTransactionDTO>(cardTransactionService.createCardtransaction(cardTransactionDTORequestCreate), HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteCardtransaction(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard) {

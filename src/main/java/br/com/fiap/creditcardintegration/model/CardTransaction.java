@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * CardTransaction
@@ -42,21 +40,6 @@ public class CardTransaction   {
   @Field("createdAt")
   private String createdAt;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-  @Field("updatedAt")
-  private String updatedAt;
-
-  @Field("tags")
-  private List<String> tags;
-
-  public CardTransaction addTagsItem(String tagsItem) {
-    if (this.tags == null) {
-      this.tags = new ArrayList<String>();
-    }
-    this.tags.add(tagsItem);
-    return this;
-  }
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -68,8 +51,6 @@ public class CardTransaction   {
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    installments: ").append(toIndentedString(installments)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
-    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
-    sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("}");
     return sb.toString();
   }

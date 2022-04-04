@@ -1,6 +1,5 @@
 package br.com.fiap.creditcardintegration.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CardTransactionDTO {
+public class CardTransactionDTORequestCreate {
 
   @Schema(description = "")
   @JsonProperty("name")
@@ -32,17 +31,8 @@ public class CardTransactionDTO {
   private BigDecimal value;
 
   @Schema(description = "")
-  @JsonProperty("status")
-  private String status;
-
-  @Schema(description = "")
   @JsonProperty("installments")
   private BigDecimal installments;
-
-  @Schema(description = "")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-  @JsonProperty("createdAt")
-  private String createdAt;
 
   @Override
   public String toString() {
@@ -52,9 +42,7 @@ public class CardTransactionDTO {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    registrationNumberCard: ").append(toIndentedString(registrationNumberCard)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    installments: ").append(toIndentedString(installments)).append("\n");
-    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
