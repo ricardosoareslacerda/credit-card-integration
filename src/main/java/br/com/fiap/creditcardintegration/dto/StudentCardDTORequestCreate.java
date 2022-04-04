@@ -1,6 +1,5 @@
 package br.com.fiap.creditcardintegration.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -32,11 +31,6 @@ public class StudentCardDTORequestCreate {
   @JsonProperty("mail")
   private String mail;
 
-  @Schema(description = "")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
-  @JsonProperty("createdAt")
-  private String createdAt;
-
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -46,7 +40,6 @@ public class StudentCardDTORequestCreate {
     sb.append("    registration: ").append(toIndentedString(registration)).append("\n");
     sb.append("    registrationsNumberCard: ").append(toIndentedString(registrationsNumberCard)).append("\n");
     sb.append("    mail: ").append(toIndentedString(mail)).append("\n");
-    sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }
