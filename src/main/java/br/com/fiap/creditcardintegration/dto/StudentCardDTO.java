@@ -29,6 +29,10 @@ public class StudentCardDTO {
   private String registration;
 
   @Schema(description = "")
+  @JsonProperty("numberCard")
+  private String numberCard;
+
+  @Schema(description = "")
   @JsonProperty("mail")
   private String mail;
 

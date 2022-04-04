@@ -22,7 +22,10 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     @Override
     public StudentCardDTO createStudentCard(final StudentCardDTORequestCreate studentCardDTO) {
         final StudentCard studentCard = objectMapper.convertValue(studentCardDTO, StudentCard.class);
+        studentCard.setRegistrationsNumberCard(studentCardDTO.getRegistration().concat(studentCardDTO.getNumberCard()));
         studentCard.setCreatedAt(Long.toString(System.currentTimeMillis()));
+        studentCard.setActive(true);
+
         final StudentCard savedStudentCard = studentsCardRepository.save(studentCard);
         return objectMapper.convertValue(savedStudentCard, StudentCardDTO.class);
     }
@@ -30,6 +33,17 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     @Override
     public void deleteStudentCard(final String registrationsNumberCard) {
         studentsCardRepository.deleteById(registrationsNumberCard);
+
+        Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
+        if (savedStudentCard.isPresent()) {
+            savedStudentCard.get().setActive(false);
+            savedStudentCard.get().setUpdatedAt(Long.toString(System.currentTimeMillis()));
+        }
+
+        final StudentCard updatedStudentCard = studentsCardRepository.save(savedStudentCard.get());
+        if (updatedStudentCard.getActive().equals(true)) {
+            throw new RuntimeException("StudentCard not deleted");
+        }
     }
 
     @Override
@@ -50,8 +64,12 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     public StudentCardDTO updateStudentCard(final String registrationsNumberCard, final StudentCardDTO studentCard) {
         Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
         if (savedStudentCard.isPresent()) {
+            savedStudentCard.get().setRegistration(studentCard.getRegistration());
+            savedStudentCard.get().setNumberCard(studentCard.getNumberCard());
+            savedStudentCard.get().setMail(studentCard.getMail());
+            savedStudentCard.get().setFullName(studentCard.getFullName());
             savedStudentCard.get().setActive(studentCard.getActive());
-            studentCard.setUpdatedAt(Long.toString(System.currentTimeMillis()));
+            savedStudentCard.get().setUpdatedAt(Long.toString(System.currentTimeMillis()));
         }
 
         final StudentCard updatedStudentCard = studentsCardRepository.save(savedStudentCard.get());

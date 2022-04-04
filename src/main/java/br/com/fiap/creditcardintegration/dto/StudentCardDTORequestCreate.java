@@ -16,12 +16,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StudentCardDTORequestCreate {
 
-  @JsonProperty("registrationsNumberCard")
-  private String registrationsNumberCard;
-
   @Schema(description = "")
   @JsonProperty("fullName")
   private String fullName;
+
+  @Schema(description = "")
+  @JsonProperty("numberCard")
+  private String numberCard;
 
   @Schema(description = "")
   @JsonProperty("registration")
@@ -37,8 +38,8 @@ public class StudentCardDTORequestCreate {
     sb.append("class StudentCardResponse {\n");
     
     sb.append("    fullName: ").append(toIndentedString(fullName)).append("\n");
+    sb.append("    numberCard: ").append(toIndentedString(numberCard)).append("\n");
     sb.append("    registration: ").append(toIndentedString(registration)).append("\n");
-    sb.append("    registrationsNumberCard: ").append(toIndentedString(registrationsNumberCard)).append("\n");
     sb.append("    mail: ").append(toIndentedString(mail)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -20,6 +20,10 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 public class StudentCard   {
 
   @MongoId(FieldType.STRING)
+  @Field("id")
+  @EqualsAndHashCode.Include
+  private String id;
+
   @Field("registrationsNumberCard")
   @EqualsAndHashCode.Include
   private String registrationsNumberCard;
@@ -29,6 +33,9 @@ public class StudentCard   {
 
   @Field("registration")
   private String registration;
+
+  @Field("numberCard")
+  private String numberCard;
 
   @Field("mail")
   private String mail;
