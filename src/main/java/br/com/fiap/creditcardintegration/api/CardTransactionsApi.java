@@ -5,8 +5,12 @@
  */
 package br.com.fiap.creditcardintegration.api;
 
-import br.com.fiap.creditcardintegration.api.response.*;
-import br.com.fiap.creditcardintegration.model.CardTransaction;
+import br.com.fiap.creditcardintegration.api.response.InternError;
+import br.com.fiap.creditcardintegration.api.response.InvalidateError;
+import br.com.fiap.creditcardintegration.api.response.NotFoundError;
+import br.com.fiap.creditcardintegration.api.response.NotPermitionError;
+import br.com.fiap.creditcardintegration.dto.CardTransactionDTO;
+import br.com.fiap.creditcardintegration.dto.CardTransactionsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -14,7 +18,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +29,7 @@ import javax.validation.constraints.DecimalMin;
 
 public interface CardTransactionsApi {
 
-    @Operation(summary = "Cria uma transaçáo de cartão de crédito", description = "", security = {
-            @SecurityRequirement(name = "creditcard_auth", scopes = {"write:students-cards", "read:students-cards"})}, tags = {"card-transactions"})
+    @Operation(summary = "Cria uma transaçáo de cartão de crédito", description = "", tags={ "card-transactions" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Operação efetuada com sucesso"),
             @ApiResponse(responseCode = "400", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InvalidateError.class))),
@@ -38,31 +40,28 @@ public interface CardTransactionsApi {
             produces = {"application/json", "application/xml"},
             consumes = {"application/json", "application/xml"},
             method = RequestMethod.POST)
-    ResponseEntity<Void> createCardtransaction(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody CardTransaction body);
+    ResponseEntity<CardTransactionDTO> createCardtransaction(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody CardTransactionDTO cardTransaction);
 
-    @Operation(summary = "Cancela uma transação do cartão de crédito", description = "", security = {
-            @SecurityRequirement(name = "notes_auth", scopes = {
-                    "write:students-cards",
-                    "read:students-cards"        })    }, tags={ "card-transactions" })
+    @Operation(summary = "Cancela uma transação do cartão de crédito", description = "", tags={ "card-transactions" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Operação efetuada com sucesso"),
             @ApiResponse(responseCode = "404", description = "Transação não cancelada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundError.class))) })
-    @RequestMapping(value = "/card-transactions/{id}",
+    @RequestMapping(value = "/card-transactions/{registrationsNumberCard}",
             produces = { "application/json", "application/xml" },
             method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteCardtransaction(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id);
+    ResponseEntity<Void> deleteCardtransaction(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
 
     @Operation(summary = "Extrato da transação do cartão de crédito", description = "", tags={ "card-transactions" })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardTransactions.class))),
+            @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CardTransactionsDTO.class))),
             @ApiResponse(responseCode = "400", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InvalidateError.class))),
             @ApiResponse(responseCode = "401", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotPermitionError.class))),
             @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundError.class))),
             @ApiResponse(responseCode = "500", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InternError.class))) })
-    @RequestMapping(value = "/card-transactions/{id}",
+    @RequestMapping(value = "/card-transactions/{registrationsNumberCard}",
             produces = { "application/json", "application/xml" },
             method = RequestMethod.GET)
-    ResponseEntity<CardTransactions> listCardtransaction(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id);
+    ResponseEntity<CardTransactionsDTO> extractCardtransaction(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
 
 }
 

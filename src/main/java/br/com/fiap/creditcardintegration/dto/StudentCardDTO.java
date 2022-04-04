@@ -1,5 +1,6 @@
-package br.com.fiap.creditcardintegration.api.response;
+package br.com.fiap.creditcardintegration.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class StudentCardResponse   {
+public class StudentCardDTO {
 
   @JsonProperty("registrationsNumberCard")
   private String registrationsNumberCard = null;
@@ -34,10 +35,12 @@ public class StudentCardResponse   {
   private Boolean active = null;
 
   @Schema(description = "")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @JsonProperty("createdAt")
   private String createdAt = null;
 
   @Schema(description = "")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @JsonProperty("updatedAt")
   private String updatedAt = null;
 

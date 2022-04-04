@@ -1,5 +1,6 @@
-package br.com.fiap.creditcardintegration.api.response;
+package br.com.fiap.creditcardintegration.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CardTransactionResponse   {
+public class CardTransactionDTO {
 
   @Schema(description = "")
   @JsonProperty("name")
@@ -41,10 +42,12 @@ public class CardTransactionResponse   {
   private BigDecimal installments;
 
   @Schema(description = "")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @JsonProperty("createdAt")
   private String createdAt;
 
   @Schema(description = "")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @JsonProperty("updatedAt")
   private String updatedAt;
 
@@ -52,7 +55,7 @@ public class CardTransactionResponse   {
   @JsonProperty("tags")
   private List<String> tags;
 
-  public CardTransactionResponse addTagsItem(String tagsItem) {
+  public CardTransactionDTO addTagsItem(String tagsItem) {
     if (this.tags == null) {
       this.tags = new ArrayList<String>();
     }

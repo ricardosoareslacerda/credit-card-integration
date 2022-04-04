@@ -1,5 +1,6 @@
 package br.com.fiap.creditcardintegration.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -37,9 +38,11 @@ public class CardTransaction   {
   @Field("installments")
   private BigDecimal installments;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @Field("createdAt")
   private String createdAt;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @Field("updatedAt")
   private String updatedAt;
 

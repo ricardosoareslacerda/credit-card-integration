@@ -1,5 +1,6 @@
 package br.com.fiap.creditcardintegration.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,9 +36,11 @@ public class StudentCard   {
   @Field("active")
   private Boolean active;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @Field("createdAt")
   private String createdAt;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @Field("updatedAt")
   private String updatedAt;
 

@@ -6,6 +6,8 @@
 package br.com.fiap.creditcardintegration.api;
 
 import br.com.fiap.creditcardintegration.api.response.*;
+import br.com.fiap.creditcardintegration.dto.StudentCardDTO;
+import br.com.fiap.creditcardintegration.dto.StudentsCardsDTO;
 import br.com.fiap.creditcardintegration.model.StudentCard;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,6 +16,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,34 +27,37 @@ public interface StudentsCardsApi {
 
     @Operation(summary = "Cria um cartão de estudante", description = "Cria um novo cartão de estudante", tags={ "students-cards" })
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StudentCardResponse.class))),
+        @ApiResponse(responseCode = "201", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StudentCardDTO.class))),
         @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))) })
     @RequestMapping(value = "/students-cards",
         produces = { "application/json", "application/xml" },
         consumes = { "application/json", "application/xml" },
         method = RequestMethod.POST)
-    ResponseEntity<StudentCardResponse> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCard body);
+    @ResponseStatus(value = HttpStatus.OK)
+    ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO);
 
     @Operation(summary = "Delete um cartão de aluno", description = "", tags={ "students-cards" })
     @ApiResponses(value = {
         @ApiResponse(responseCode = "204", description = "Operação efetuada com sucesso"),
         @ApiResponse(responseCode = "404", description = "Transação não cancelada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundError.class))) })
-    @RequestMapping(value = "/students-cards/{id}",
+    @RequestMapping(value = "/students-cards/{registrationsNumberCard}",
         produces = { "application/json", "application/xml" },
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id);
+    @ResponseStatus(value = HttpStatus.OK)
+    ResponseEntity<Void> deleteStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
 
     @Operation(summary = "Retorna uma cartão de aluno", description = "", tags={ "students-cards" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StudentCardResponse.class))),
+        @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StudentCardDTO.class))),
         @ApiResponse(responseCode = "400", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InvalidateError.class))),
         @ApiResponse(responseCode = "401", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotPermitionError.class))),
         @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundError.class))),
         @ApiResponse(responseCode = "500", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InternError.class))) })
-    @RequestMapping(value = "/students-cards/{id}",
+    @RequestMapping(value = "/students-cards/{registrationsNumberCard}",
         produces = { "application/json", "application/xml" }, 
         method = RequestMethod.GET)
-    ResponseEntity<StudentCardResponse> getStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id);
+    @ResponseStatus(value = HttpStatus.OK)
+    ResponseEntity<StudentCardDTO> getStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
 
     @Operation(summary = "Retorna todos os cartão", description = "Cria um novo cartão de estudante", tags={ "students-cards" })
     @ApiResponses(value = { 
@@ -63,20 +69,21 @@ public interface StudentsCardsApi {
     @RequestMapping(value = "/students-cards",
         produces = { "application/json", "application/xml" }, 
         method = RequestMethod.GET)
-    ResponseEntity<StudentCard> listAllStudentCard(@Parameter(in = ParameterIn.QUERY, description = "" ,schema=@Schema()) @Valid @RequestParam(value = "ative", required = false) String ative);
+    @ResponseStatus(value = HttpStatus.OK)
+    ResponseEntity<StudentsCardsDTO> listAllStudentCard(@Parameter(in = ParameterIn.QUERY, description = "" ,schema=@Schema()) @Valid @RequestParam(value = "active", required = false) String active);
 
     @Operation(summary = "Atualiza cartão de aluno", description = "", tags={ "students-cards" })
     @ApiResponses(value = { 
-        @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StudentCardResponse.class))),
+        @ApiResponse(responseCode = "200", description = "Operação efetuada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = StudentCardDTO.class))),
         @ApiResponse(responseCode = "400", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InvalidateError.class))),
         @ApiResponse(responseCode = "401", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotPermitionError.class))),
         @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = NotFoundError.class))),
         @ApiResponse(responseCode = "500", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InternError.class))) })
-    @RequestMapping(value = "/students-cards/{id}",
+    @RequestMapping(value = "/students-cards/{registrationsNumberCard}",
         produces = { "application/json", "application/xml" }, 
         consumes = { "application/json", "application/xml" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<StudentCardResponse> updatStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("id") String id, @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCard body);
-
+    @ResponseStatus(value = HttpStatus.OK)
+    ResponseEntity<StudentCardDTO> updatStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard, @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO);
 }
 
