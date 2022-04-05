@@ -71,7 +71,7 @@ public interface StudentsCardsApi {
         produces = { "application/json", "application/xml" }, 
         method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    ResponseEntity<StudentsCardsDTO> listAllStudentCard(@Parameter(in = ParameterIn.QUERY, description = "" ,schema=@Schema()) @Valid @RequestParam(value = "active", required = false) String active);
+    ResponseEntity<StudentsCardsDTO> listAllStudentCard(@Parameter(in = ParameterIn.QUERY, description = "" ,schema=@Schema()) @Valid @RequestParam(value = "active", required = false) boolean active);
 
     @Operation(summary = "Atualiza cartão de aluno", description = "", tags={ "students-cards" })
     @ApiResponses(value = { 

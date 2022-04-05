@@ -55,7 +55,7 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     }
 
     @Override
-    public StudentsCardsDTO listAllStudentCard(final String active) {
+    public StudentsCardsDTO listAllStudentCard(final boolean active) {
         final List<StudentCard> savedStudentCard = studentsCardRepository.findAllByActiveEquals(active);
         return objectMapper.convertValue(savedStudentCard, StudentsCardsDTO.class);
     }

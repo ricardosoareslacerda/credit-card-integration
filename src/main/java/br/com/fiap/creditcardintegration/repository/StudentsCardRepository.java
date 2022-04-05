@@ -9,12 +9,5 @@ import java.util.List;
 @Repository
 public interface StudentsCardRepository extends MongoRepository<StudentCard, String> {
 
-    List<StudentCard> findAllByActiveEquals(final String active);
-    /*StudentCard createStudentCard(final StudentCard studentCard);
-
-    void deleteStudentCard(final String registrationsNumberCard);
-
-    StudentCard getStudentCard(final String registrationsNumberCard);
-
-    StudentCard updateStudentCard(final String registrationsNumberCard, final StudentCard studentCard);*/
+    List<StudentCard> findAllByActiveEquals(final boolean active);
 }

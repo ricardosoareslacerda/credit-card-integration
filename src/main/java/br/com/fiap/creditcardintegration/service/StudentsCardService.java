@@ -12,7 +12,7 @@ public interface StudentsCardService {
 
     StudentCardDTO getStudentCard(final String registrationsNumberCard);
 
-    StudentsCardsDTO listAllStudentCard(final String active);
+    StudentsCardsDTO listAllStudentCard(final boolean active);
 
     StudentCardDTO updateStudentCard(final String registrationsNumberCard, final StudentCardDTO studentCard);
 }

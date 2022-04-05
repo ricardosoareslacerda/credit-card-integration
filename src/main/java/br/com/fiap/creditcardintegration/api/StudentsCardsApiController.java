@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +32,6 @@ public class StudentsCardsApiController implements StudentsCardsApi {
     public ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @RequestBody StudentCardDTORequestCreate studentCardDTORequestCreate) {
 
         return new ResponseEntity<StudentCardDTO>(studentsCardService.createStudentCard(studentCardDTORequestCreate), HttpStatus.OK);
-        //return new ResponseEntity<StudentCardDTO>(objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n  \"registrationsNumberCard\" : \"registrationsNumberCard\",\n  \"mail\" : \"mail\",\n  \"fullName\" : \"fullName\",\n  \"active\" : true,\n  \"registration\" : \"registration\",\n  \"id\" : \"id\",\n  \"updatedAt\" : \"updatedAt\"\n}", StudentCardDTO.class), HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> deleteStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard) {
@@ -41,18 +41,14 @@ public class StudentsCardsApiController implements StudentsCardsApi {
 
     public ResponseEntity<StudentCardDTO> getStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard) {
 
-        //return new ResponseEntity<StudentCardDTO>(objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n  \"registrationsNumberCard\" : \"registrationsNumberCard\",\n  \"mail\" : \"mail\",\n  \"fullName\" : \"fullName\",\n  \"active\" : true,\n  \"registration\" : \"registration\",\n  \"id\" : \"id\",\n  \"updatedAt\" : \"updatedAt\"\n}", StudentCardDTO.class), HttpStatus.NOT_IMPLEMENTED);
         return new ResponseEntity<StudentCardDTO>(studentsCardService.getStudentCard(registrationsNumberCard), HttpStatus.OK);
     }
 
-    public ResponseEntity<StudentsCardsDTO> listAllStudentCard(@Parameter(in = ParameterIn.QUERY, description = "", schema = @Schema()) @Valid @RequestParam(value = "active", required = false) String active) {
-
-        //return new ResponseEntity<StudentsCards>((StudentsCards) objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n  \"registrationsNumberCard\" : \"registrationsNumberCard\",\n  \"mail\" : \"mail\",\n  \"fullName\" : \"fullName\",\n  \"active\" : true,\n  \"registration\" : \"registration\",\n  \"updatedAt\" : \"updatedAt\"\n}", StudentsCards.class), HttpStatus.NOT_IMPLEMENTED);
-        return new ResponseEntity<StudentsCardsDTO>(studentsCardService.listAllStudentCard(active), HttpStatus.OK);
+    public ResponseEntity<StudentsCardsDTO> listAllStudentCard(@Parameter(in = ParameterIn.QUERY, description = "", schema = @Schema()) @Valid @RequestParam(value = "active", required = false) boolean active) {
+        return ResponseEntity.ok(studentsCardService.listAllStudentCard(active));
     }
 
     public ResponseEntity<StudentCardDTO> updatStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard, @Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO) {
-        //return new ResponseEntity<StudentCardDTO>(objectMapper.readValue("{\n  \"createdAt\" : \"createdAt\",\n  \"registrationsNumberCard\" : \"registrationsNumberCard\",\n  \"mail\" : \"mail\",\n  \"fullName\" : \"fullName\",\n  \"active\" : true,\n  \"registration\" : \"registration\",\n  \"registrationsNumberCard\" : \"registrationsNumberCard\",\n  \"updatedAt\" : \"updatedAt\"\n}", StudentCardDTO.class), HttpStatus.NOT_IMPLEMENTED);
         return new ResponseEntity<StudentCardDTO>(studentsCardService.updateStudentCard(registrationsNumberCard, studentCardDTO), HttpStatus.OK);
     }
 }
