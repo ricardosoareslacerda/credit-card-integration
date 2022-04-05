@@ -22,7 +22,7 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     @Override
     public StudentCardDTO createStudentCard(final StudentCardDTORequestCreate studentCardDTO) {
         final StudentCard studentCard = objectMapper.convertValue(studentCardDTO, StudentCard.class);
-        studentCard.setRegistrationsNumberCard(studentCardDTO.getRegistration().concat(studentCardDTO.getNumberCard()));
+        studentCard.setRegistrationNumberCard(studentCardDTO.getRegistration().concat(studentCardDTO.getNumberCard()));
         studentCard.setCreatedAt(Long.toString(System.currentTimeMillis()));
         studentCard.setActive(true);
 

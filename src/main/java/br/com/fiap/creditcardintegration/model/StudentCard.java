@@ -26,7 +26,7 @@ public class StudentCard   {
 
   @Field("registrationsNumberCard")
   @EqualsAndHashCode.Include
-  private String registrationsNumberCard;
+  private String registrationNumberCard;
 
   @Field("full_name")
   private String fullName;
@@ -41,7 +41,7 @@ public class StudentCard   {
   private String mail;
 
   @Field("active")
-  private Boolean active;
+  private Boolean active = true;
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
   @Field("createdAt")
@@ -51,6 +51,17 @@ public class StudentCard   {
   @Field("updatedAt")
   private String updatedAt;
 
+
+  public StudentCard(String registrationNumberCard, String fullName, String registration, String numberCard, String mail, Boolean active, String createdAt) {
+    this.registrationNumberCard = registrationNumberCard;
+    this.fullName = fullName;
+    this.registration = registration;
+    this.numberCard = numberCard;
+    this.mail = mail;
+    this.active = active;
+    this.createdAt = createdAt;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -58,7 +69,7 @@ public class StudentCard   {
     
     sb.append("    fullName: ").append(toIndentedString(fullName)).append("\n");
     sb.append("    registration: ").append(toIndentedString(registration)).append("\n");
-    sb.append("    registrationsNumberCard: ").append(toIndentedString(registrationsNumberCard)).append("\n");
+    sb.append("    registrationsNumberCard: ").append(toIndentedString(registrationNumberCard)).append("\n");
     sb.append("    mail: ").append(toIndentedString(mail)).append("\n");
     sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
