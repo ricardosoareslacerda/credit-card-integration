@@ -16,26 +16,26 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StudentCardDTORequestCreate {
 
-  @Schema(description = "")
+  @Schema(description = "Nome completo do aluno")
   @JsonProperty("fullName")
   private String fullName;
 
-  @Schema(description = "")
-  @JsonProperty("numberCard")
-  private String numberCard;
-
-  @Schema(description = "")
+  @Schema(description = "Metrícula do aluno")
   @JsonProperty("registration")
   private String registration;
 
-  @Schema(description = "")
+  @Schema(description = "Número de série do cartão")
+  @JsonProperty("numberCard")
+  private String numberCard;
+
+  @Schema(description = "E-mail do aluno")
   @JsonProperty("mail")
   private String mail;
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class StudentCardResponse {\n");
+    sb.append("StudentCardResponse: {\n");
     
     sb.append("    fullName: ").append(toIndentedString(fullName)).append("\n");
     sb.append("    numberCard: ").append(toIndentedString(numberCard)).append("\n");

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,26 +28,33 @@ public class StudentsCardsApiController implements StudentsCardsApi {
 
     private final StudentsCardService studentsCardService;
 
+    @Override
     public ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @RequestBody StudentCardDTORequestCreate studentCardDTORequestCreate) {
-
-        return new ResponseEntity<StudentCardDTO>(studentsCardService.createStudentCard(studentCardDTORequestCreate), HttpStatus.OK);
+        log.info("Creating student card");
+        return ResponseEntity.ok(studentsCardService.createStudentCard(studentCardDTORequestCreate));
     }
 
-    public ResponseEntity<Void> deleteStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard) {
-        studentsCardService.deleteStudentCard(registrationsNumberCard);
-        return new ResponseEntity<Void>(HttpStatus.OK);
-    }
-
-    public ResponseEntity<StudentCardDTO> getStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard) {
-
-        return new ResponseEntity<StudentCardDTO>(studentsCardService.getStudentCard(registrationsNumberCard), HttpStatus.OK);
-    }
-
-    public ResponseEntity<StudentsCardsDTO> listAllStudentCard(@Parameter(in = ParameterIn.QUERY, description = "", schema = @Schema()) @Valid @RequestParam(value = "active", required = false) boolean active) {
-        return ResponseEntity.ok(studentsCardService.listAllStudentCard(active));
-    }
-
+    @Override
     public ResponseEntity<StudentCardDTO> updatStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard, @Parameter(in = ParameterIn.DEFAULT, description = "", schema = @Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO) {
-        return new ResponseEntity<StudentCardDTO>(studentsCardService.updateStudentCard(registrationsNumberCard, studentCardDTO), HttpStatus.OK);
+        log.info("Updating student card");
+        return ResponseEntity.ok(studentsCardService.updateStudentCard(registrationsNumberCard, studentCardDTO));
+    }
+
+    @Override
+    public ResponseEntity deleteStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard) {
+        log.info("Deleting student card");
+        studentsCardService.deleteStudentCard(registrationsNumberCard);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
+    public ResponseEntity<StudentCardDTO> getStudentCard(@DecimalMin("20") @Parameter(in = ParameterIn.PATH, description = "", required = true, schema = @Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard) {
+        log.info("Getting student card");
+        return ResponseEntity.ok(studentsCardService.getStudentCard(registrationsNumberCard));
+    }
+
+    @Override
+    public ResponseEntity<StudentsCardsDTO> findAllByActive(@Parameter(in = ParameterIn.QUERY, description = "", schema = @Schema()) @Valid @RequestParam(value = "active", required = false) boolean active) {
+        return ResponseEntity.ok(studentsCardService.findAllByActive(active));
     }
 }

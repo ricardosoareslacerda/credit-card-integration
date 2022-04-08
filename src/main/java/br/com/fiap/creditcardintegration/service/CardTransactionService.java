@@ -2,13 +2,15 @@ package br.com.fiap.creditcardintegration.service;
 
 import br.com.fiap.creditcardintegration.dto.CardTransactionDTO;
 import br.com.fiap.creditcardintegration.dto.CardTransactionDTORequestCreate;
-import br.com.fiap.creditcardintegration.dto.CardTransactionsDTO;
+import br.com.fiap.creditcardintegration.model.CardTransaction;
+
+import java.io.IOException;
 
 public interface CardTransactionService {
 
     CardTransactionDTO createCardtransaction(final CardTransactionDTORequestCreate cardTransactionDTORequestCreate);
 
-    void deleteCardtransaction(final String registrationNumberCard);
+    CardTransaction deleteCardtransaction(final String registrationNumberCard) throws Exception;
 
-    CardTransactionsDTO extractCardTransaction(final String registrationsNumberCard);
+    void extractCardTransaction(final String registrationsNumberCard) throws Exception;
 }

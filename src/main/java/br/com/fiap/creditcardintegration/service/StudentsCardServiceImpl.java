@@ -31,6 +31,22 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     }
 
     @Override
+    public StudentCardDTO updateStudentCard(final String registrationsNumberCard, final StudentCardDTO studentCard) {
+        Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
+        if (savedStudentCard.isPresent()) {
+            savedStudentCard.get().setRegistration(studentCard.getRegistration());
+            savedStudentCard.get().setNumberCard(studentCard.getNumberCard());
+            savedStudentCard.get().setMail(studentCard.getMail());
+            savedStudentCard.get().setFullName(studentCard.getFullName());
+            savedStudentCard.get().setActive(studentCard.getActive());
+            savedStudentCard.get().setUpdatedAt(Long.toString(System.currentTimeMillis()));
+        }
+
+        final StudentCard updatedStudentCard = studentsCardRepository.save(savedStudentCard.get());
+        return objectMapper.convertValue(updatedStudentCard, StudentCardDTO.class);
+    }
+
+    @Override
     public void deleteStudentCard(final String registrationsNumberCard) {
         studentsCardRepository.deleteById(registrationsNumberCard);
 
@@ -55,24 +71,8 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     }
 
     @Override
-    public StudentsCardsDTO listAllStudentCard(final boolean active) {
+    public StudentsCardsDTO findAllByActive(final boolean active) {
         final List<StudentCard> savedStudentCard = studentsCardRepository.findAllByActiveEquals(active);
         return objectMapper.convertValue(savedStudentCard, StudentsCardsDTO.class);
-    }
-
-    @Override
-    public StudentCardDTO updateStudentCard(final String registrationsNumberCard, final StudentCardDTO studentCard) {
-        Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
-        if (savedStudentCard.isPresent()) {
-            savedStudentCard.get().setRegistration(studentCard.getRegistration());
-            savedStudentCard.get().setNumberCard(studentCard.getNumberCard());
-            savedStudentCard.get().setMail(studentCard.getMail());
-            savedStudentCard.get().setFullName(studentCard.getFullName());
-            savedStudentCard.get().setActive(studentCard.getActive());
-            savedStudentCard.get().setUpdatedAt(Long.toString(System.currentTimeMillis()));
-        }
-
-        final StudentCard updatedStudentCard = studentsCardRepository.save(savedStudentCard.get());
-        return objectMapper.convertValue(updatedStudentCard, StudentCardDTO.class);
     }
 }

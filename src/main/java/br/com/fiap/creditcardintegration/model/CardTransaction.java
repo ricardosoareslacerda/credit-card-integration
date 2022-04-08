@@ -19,13 +19,18 @@ import java.math.BigDecimal;
 @Document(collection = "card_transaction")
 public class CardTransaction   {
 
+  public enum Status {
+    TRANSACTION_SUCCESS,
+    TRANSACTION_CANCELED
+  }
+
   @MongoId(FieldType.STRING)
   @Field("registrationsNumberCard")
   @EqualsAndHashCode.Include
   private String registrationNumberCard;
 
-  @Field("name")
-  private String name;
+  @Field("establishmentName")
+  private String establishmentName;
 
   @Field("value")
   private BigDecimal value;
@@ -40,17 +45,22 @@ public class CardTransaction   {
   @Field("createdAt")
   private String createdAt;
 
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+  @Field("updatedAt")
+  private String updatedAt;
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CardTransaction {\n");
+    sb.append("CardTransaction: {\n");
     
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    name: ").append(toIndentedString(establishmentName)).append("\n");
     sb.append("    registrationNumberCard: ").append(toIndentedString(registrationNumberCard)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    installments: ").append(toIndentedString(installments)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
+    sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");
     return sb.toString();
   }

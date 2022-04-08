@@ -69,12 +69,25 @@ public class StudentCard   {
     
     sb.append("    fullName: ").append(toIndentedString(fullName)).append("\n");
     sb.append("    registration: ").append(toIndentedString(registration)).append("\n");
+    sb.append("    numberCard: ").append(toIndentedString(numberCard)).append("\n");
     sb.append("    registrationsNumberCard: ").append(toIndentedString(registrationNumberCard)).append("\n");
     sb.append("    mail: ").append(toIndentedString(mail)).append("\n");
     sb.append("    active: ").append(toIndentedString(active)).append("\n");
     sb.append("    createdAt: ").append(toIndentedString(createdAt)).append("\n");
     sb.append("    updatedAt: ").append(toIndentedString(updatedAt)).append("\n");
     sb.append("}");
+    return sb.toString();
+  }
+
+  public String toMinimalString() {
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("student-card:");
+    sb.append(" {");
+    sb.append("fullName: ").append(toIndentedString(fullName)).append(" - ");
+    sb.append("registration: ").append(toIndentedString(registration)).append(" - ");
+    sb.append("numberCard: ").append(toIndentedString(numberCard));
+    sb.append(" }");;
     return sb.toString();
   }
 

@@ -8,11 +8,11 @@ public interface StudentsCardService {
 
     StudentCardDTO createStudentCard(final StudentCardDTORequestCreate studentCard);
 
+    StudentsCardsDTO findAllByActive(final boolean active);
+
     void deleteStudentCard(final String registrationsNumberCard);
 
     StudentCardDTO getStudentCard(final String registrationsNumberCard);
-
-    StudentsCardsDTO listAllStudentCard(final boolean active);
 
     StudentCardDTO updateStudentCard(final String registrationsNumberCard, final StudentCardDTO studentCard);
 }

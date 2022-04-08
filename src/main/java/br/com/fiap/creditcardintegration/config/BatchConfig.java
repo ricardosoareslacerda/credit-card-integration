@@ -3,6 +3,8 @@ package br.com.fiap.creditcardintegration.config;
 import br.com.fiap.creditcardintegration.model.StudentCard;
 import br.com.fiap.creditcardintegration.service.batch.StudentCardItemProcessor;
 import br.com.fiap.creditcardintegration.service.batch.listener.JobCompletionNotificationListener;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -15,13 +17,16 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoOperations;
 
-@Configuration
-@EnableBatchProcessing
+@RequiredArgsConstructor
+@AllArgsConstructor
+//@Configuration
+//@EnableBatchProcessing
 public class BatchConfig {
 
     @Autowired
@@ -30,13 +35,18 @@ public class BatchConfig {
     @Autowired
     public StepBuilderFactory stepBuilderFactory;
 
+    @Value("${spring.batch.job.resource.name}")
+    private String resourceName;
+
     @Bean
     public FlatFileItemReader<StudentCard> reader() {
         return new FlatFileItemReaderBuilder<StudentCard>()
                 .name("studentCardItemReader")
-                .resource(new ClassPathResource("batch/students_data.csv"))
+                .resource(new ClassPathResource(resourceName))
                 .delimited()
-                .delimiter(";").names("full_name", "registration", "numberCard", "registrationNumberCard", "mail", "createdAt")
+                .delimiter("")
+                //names("full_name", "registration", "numberCard", "registrationNumberCard", "mail", "createdAt")
+                .names("full_name_", "registration_", "numberCard_", "registrationNumberCard_", "mail_", "createdAt_")
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
                     setTargetType(StudentCard.class);
                 }})
@@ -54,7 +64,6 @@ public class BatchConfig {
                 .collection("student_card")
                 .template(mongoOperations)
                 .build();
-
     }
 
     @Bean
@@ -76,5 +85,4 @@ public class BatchConfig {
                 .writer(writer)
                 .build();
     }
-
 }

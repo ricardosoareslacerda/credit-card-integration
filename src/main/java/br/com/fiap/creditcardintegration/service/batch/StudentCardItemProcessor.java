@@ -11,13 +11,12 @@ public class StudentCardItemProcessor implements ItemProcessor<StudentCard, Stud
     public StudentCard process(StudentCard item) throws Exception {
         StudentCard studentCard = new StudentCard(item.getRegistrationNumberCard(),
                                                   item.getFullName().toLowerCase(),
-                item.getRegistration(),
-                item.getNumberCard(),
-                item.getMail(),
-                item.getActive(),
-                item.getCreatedAt());
-        log.info("Registring ... " + studentCard.toString());
+                                                  item.getRegistration(),
+                                                  item.getNumberCard(),
+                                                  item.getMail(),
+                                                  item.getActive(),
+                                                  item.getCreatedAt());
+        log.info("Registering Students Cards ... " + studentCard.toMinimalString());
         return studentCard;
     }
-
 }
