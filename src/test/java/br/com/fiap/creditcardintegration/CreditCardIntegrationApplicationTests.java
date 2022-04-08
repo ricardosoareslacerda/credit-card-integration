@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 @RequiredArgsConstructor
 @AllArgsConstructor
+@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 class CreditCardIntegrationApplicationTests {
 
 	@Autowired
@@ -61,7 +63,7 @@ class CreditCardIntegrationApplicationTests {
 				establishmentName("Zé Delivery").
 				value(new BigDecimal(42.00)).
 				installments(new BigDecimal(1)).
-				status(CardTransaction.Status.TRANSACTION_SUCCESS.name()).
+				status(CardTransaction.Status.TRANSACTION_SUCCESS.getDescription()).
 				createdAt("08/04/2022").build();
 	}
 

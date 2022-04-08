@@ -20,8 +20,18 @@ import java.math.BigDecimal;
 public class CardTransaction   {
 
   public enum Status {
-    TRANSACTION_SUCCESS,
-    TRANSACTION_CANCELED
+    TRANSACTION_SUCCESS("Transacao realizada com sucesso"),
+    TRANSACTION_FAILED("Transacao nao realizada");
+
+    private String description;
+
+    Status(String description) {
+      this.description = description;
+    }
+
+    public String getDescription() {
+      return description;
+    }
   }
 
   @MongoId(FieldType.STRING)

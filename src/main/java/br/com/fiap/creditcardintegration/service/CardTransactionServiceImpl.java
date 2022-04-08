@@ -82,7 +82,7 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         savedCardTransaction.ifPresentOrElse(savedCard -> {
 
             savedCard.setUpdatedAt(Long.toString(System.currentTimeMillis()));
-            savedCard.setStatus(CardTransaction.Status.TRANSACTION_CANCELED.name());
+            savedCard.setStatus(CardTransaction.Status.TRANSACTION_FAILED.getDescription());
             cardTransactionRepository.save(savedCard);
         }, () -> {
             throw new NotFoundException(1, "Transaction not found");
