@@ -17,14 +17,14 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "student_card")
-public class StudentCard   {
+public class StudentCard {
 
   @MongoId(FieldType.STRING)
   @Field("id")
   @EqualsAndHashCode.Include
   private String id;
 
-  @Field("registrationsNumberCard")
+  @Field("registrationNumberCard")
   @EqualsAndHashCode.Include
   private String registrationNumberCard;
 

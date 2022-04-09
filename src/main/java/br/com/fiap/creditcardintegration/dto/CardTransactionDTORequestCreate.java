@@ -40,7 +40,7 @@ public class CardTransactionDTORequestCreate {
             .establishmentName(establishmentName)
             .registrationNumberCard(registrationNumberCard)
             .value(value)
-            .status(CardTransaction.Status.TRANSACTION_SUCCESS.name())
+            .status(CardTransaction.Status.TRANSACTION_SUCCESS)
             .installments(installments)
             .createdAt(Long.toString(System.currentTimeMillis()))
             .build();

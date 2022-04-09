@@ -55,7 +55,7 @@ public class CardTransactionDTO {
                 .establishmentName(cardTransaction.getEstablishmentName())
                 .registrationNumberCard(cardTransaction.getRegistrationNumberCard())
                 .value(cardTransaction.getValue())
-                .status(cardTransaction.getStatus())
+                .status(cardTransaction.getStatus().getDescription())
                 .installments(cardTransaction.getInstallments())
                 .createdAt(cardTransaction.getCreatedAt())
                 .updatedAt(cardTransaction.getUpdatedAt())
@@ -67,7 +67,7 @@ public class CardTransactionDTO {
                 .establishmentName(establishmentName)
                 .registrationNumberCard(registrationNumberCard)
                 .value(value)
-                .status(status)
+                .status(status  == null ? null : CardTransaction.Status.valueOf(status))
                 .installments(installments)
                 .createdAt(createdAt)
                 .build();

@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface CardTransactionRepository extends MongoRepository<CardTransaction, String> {
 
-    Optional<CardTransaction> findByRegistrationNumberCardAndStatusEquals(final String registrationNumberCard, final String status);
+    Optional<CardTransaction> findByRegistrationNumberCardAndStatusEquals(final String registrationNumberCard, final CardTransaction.Status status);
 
     Optional<List<CardTransaction>> findByRegistrationNumberCardEquals(final String registrationNumberCard);
 }

@@ -32,7 +32,7 @@ public class StudentsCardServiceImpl implements StudentsCardService {
 
     @Override
     public StudentCardDTO updateStudentCard(final String registrationsNumberCard, final StudentCardDTO studentCard) {
-        Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
+        Optional<StudentCard> savedStudentCard = studentsCardRepository.findByRegistrationNumberCardEquals(registrationsNumberCard);
         if (savedStudentCard.isPresent()) {
             savedStudentCard.get().setRegistration(studentCard.getRegistration());
             savedStudentCard.get().setNumberCard(studentCard.getNumberCard());
@@ -50,7 +50,7 @@ public class StudentsCardServiceImpl implements StudentsCardService {
     public void deleteStudentCard(final String registrationsNumberCard) {
         studentsCardRepository.deleteById(registrationsNumberCard);
 
-        Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
+        Optional<StudentCard> savedStudentCard = studentsCardRepository.findByRegistrationNumberCardEquals(registrationsNumberCard);
         if (savedStudentCard.isPresent()) {
             savedStudentCard.get().setActive(false);
             savedStudentCard.get().setUpdatedAt(Long.toString(System.currentTimeMillis()));
@@ -64,7 +64,7 @@ public class StudentsCardServiceImpl implements StudentsCardService {
 
     @Override
     public StudentCardDTO getStudentCard(final String registrationsNumberCard) {
-        final Optional<StudentCard> savedStudentCard = studentsCardRepository.findById(registrationsNumberCard);
+        final Optional<StudentCard> savedStudentCard = studentsCardRepository.findByRegistrationNumberCardEquals(registrationsNumberCard);
         if (savedStudentCard.isPresent())
             return objectMapper.convertValue(savedStudentCard.get(), StudentCardDTO.class);
         return null;

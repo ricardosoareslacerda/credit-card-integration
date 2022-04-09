@@ -9,23 +9,22 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
-
 @SpringBootTest
 @RequiredArgsConstructor
 @AllArgsConstructor
-@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
+//@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
+@SpringJUnitConfig
 class CreditCardIntegrationApplicationTests {
 
 	@Autowired
@@ -71,7 +70,7 @@ class CreditCardIntegrationApplicationTests {
 	public void testSendoMailExtractTransactionm() throws Exception {
 
 		cardTransactionService.setCardTransactionRepository(cardTransactionRepositoryMock);
-		cardTransactionService.setMailService(mailService);
+		cardTransactionService.setMailService(mailServiceMock);
 		cardTransactionService.setResourceLoader(resourceLoader);
 
 		Mockito.when(cardTransactionRepositoryMock.findByRegistrationNumberCardEquals(Mockito.any())).thenReturn(this.getCardTransactions());

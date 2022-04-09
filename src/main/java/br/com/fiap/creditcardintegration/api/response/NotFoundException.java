@@ -10,4 +10,9 @@ public class NotFoundException extends ApiException {
         super(code, msg);
         this.code = code;
     }
+
+    public NotFoundException(String msg) {
+        super(404, msg);
+        this.code = code;
+    }
 }

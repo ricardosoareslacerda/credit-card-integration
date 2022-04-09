@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * CardTransaction
@@ -17,7 +18,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 @Document(collection = "card_transaction")
-public class CardTransaction   {
+public class CardTransaction {
 
   public enum Status {
     TRANSACTION_SUCCESS("Transacao realizada com sucesso"),
@@ -34,8 +35,36 @@ public class CardTransaction   {
     }
   }
 
+  public enum CARD_TRANSACTION_POSITION {
+    POS_REGISTRATION_NUMBERCARD(5),
+    POS_ESTABLISHMENT_NAME(6),
+    POS_VALUE(7),
+    POS_INSTALLMENTS(8),
+    POS_CREATED_AT(9);
+
+    private int position;
+
+    CARD_TRANSACTION_POSITION(int position) {
+      this.position = position;
+    }
+
+    public int getPosition() {
+      return position;
+    }
+
+    public static CARD_TRANSACTION_POSITION getByPosition(int position, int loops) {
+      return Arrays.stream(CARD_TRANSACTION_POSITION.values()).filter(transaction -> (position == transaction.getPosition())
+                      || (position == (transaction.getPosition() + loops))).
+              findAny().get();
+    }
+  }
+
   @MongoId(FieldType.STRING)
-  @Field("registrationsNumberCard")
+  @Field("id")
+  @EqualsAndHashCode.Include
+  private String id;
+
+  @Field("registrationNumberCard")
   @EqualsAndHashCode.Include
   private String registrationNumberCard;
 
@@ -46,7 +75,7 @@ public class CardTransaction   {
   private BigDecimal value;
 
   @Field("status")
-  private String status;
+  private Status status;
 
   @Field("installments")
   private BigDecimal installments;

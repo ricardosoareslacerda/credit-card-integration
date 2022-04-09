@@ -4,11 +4,14 @@ import br.com.fiap.creditcardintegration.api.response.NotFoundException;
 import br.com.fiap.creditcardintegration.dto.CardTransactionDTO;
 import br.com.fiap.creditcardintegration.dto.CardTransactionDTORequestCreate;
 import br.com.fiap.creditcardintegration.model.CardTransaction;
+import br.com.fiap.creditcardintegration.model.StudentCard;
 import br.com.fiap.creditcardintegration.repository.CardTransactionRepository;
+import br.com.fiap.creditcardintegration.repository.StudentsCardRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -35,12 +38,6 @@ public class CardTransactionServiceImpl implements CardTransactionService {
     public static final String MAIL_EXTRACT_CARD_TRANSACTION_BODY = "{{#mail-extract-card-transaction-body}}";
     public static final String MAIL_EXTRACT_CARD_TRANSACTION_HEADER = "{{#mail-extract-card-transaction-header}}";
 
-    /*public CardTransactionServiceImpl(CardTransactionRepository cardTransactionRepository, MailService mailService, ResourceLoader resourceLoader) {
-        this.cardTransactionRepository = cardTransactionRepository;
-        this.mailService = mailService;
-        this.resourceLoader = resourceLoader;
-    }*/
-
     private enum MAIL_EXTRACT_CARD_TRANSACTION_BODY_ITEM {
         REGISTRATION_NUMBERCARD("{{registrationsNumberCard}}"),
         ESTABLISHMENT_NAME("{{establishmentName}}"),
@@ -61,13 +58,23 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         }
     }
 
+    @Autowired
     private CardTransactionRepository cardTransactionRepository;
+
+    @Autowired
+    private StudentsCardRepository studentsCardRepository;
+
+    @Autowired
     private ResourceLoader resourceLoader;
+
+    @Autowired
     private MailService mailService;
 
     @Override
     public CardTransactionDTO createCardtransaction(final CardTransactionDTORequestCreate dto) {
         try {
+            this.getStudentCard(dto.getRegistrationNumberCard());
+
             CardTransaction cardTransaction = cardTransactionRepository.save(dto.toCardTransaction());
             return CardTransactionDTO.from(cardTransaction);
         }
@@ -76,27 +83,34 @@ public class CardTransactionServiceImpl implements CardTransactionService {
         }
     }
 
+    private StudentCard getStudentCard(final String registrationsNumberCard) {
+        return studentsCardRepository.findByRegistrationNumberCardEquals(registrationsNumberCard).orElseThrow(() -> new NotFoundException("StudentsCard not found"));
+    }
+
     @Override
-    public CardTransaction deleteCardtransaction(final String registrationNumberCard) throws Exception{
-        Optional<CardTransaction> savedCardTransaction = cardTransactionRepository.findByRegistrationNumberCardAndStatusEquals(registrationNumberCard, CardTransaction.Status.TRANSACTION_SUCCESS.name());
+    public CardTransactionDTO deleteCardtransaction(final String registrationNumberCard) throws Exception{
+        Optional<CardTransaction> savedCardTransaction = cardTransactionRepository.findByRegistrationNumberCardAndStatusEquals(registrationNumberCard, CardTransaction.Status.TRANSACTION_SUCCESS);
+        AtomicReference<CardTransactionDTO> cardTransactionDTO = null;
         savedCardTransaction.ifPresentOrElse(savedCard -> {
 
             savedCard.setUpdatedAt(Long.toString(System.currentTimeMillis()));
-            savedCard.setStatus(CardTransaction.Status.TRANSACTION_FAILED.getDescription());
-            cardTransactionRepository.save(savedCard);
+            savedCard.setStatus(CardTransaction.Status.TRANSACTION_FAILED);
+            cardTransactionDTO.set(CardTransactionDTO.from(cardTransactionRepository.save(savedCard)));
         }, () -> {
             throw new NotFoundException(1, "Transaction not found");
         });
-        return savedCardTransaction.get();
+        return cardTransactionDTO.get();
     }
 
     @Override
     public void extractCardTransaction(final String registrationsNumberCard) throws Exception {
-        final Optional<List<CardTransaction>> savedCardTransactions = cardTransactionRepository.findByRegistrationNumberCardEquals(registrationsNumberCard);
+        StudentCard studentCard = this.getStudentCard(registrationsNumberCard);
+
+        final Optional<List<CardTransaction>> savedCardTransactions = cardTransactionRepository.findByRegistrationNumberCardEquals(studentCard.getRegistrationNumberCard());
 
         savedCardTransactions.ifPresentOrElse(cardTransactions -> {
             List<CardTransactionDTO> cardTransactionDTOS = cardTransactions.stream().map(CardTransactionDTO::from).collect(Collectors.toList());
-            mailService.sendMail("ricardosoareslacerda@gmail.com", "Extrato", Normalizer.normalize(this.parseTemplateToStringMail(cardTransactionDTOS), Normalizer.Form.NFD), "ricardosoareslacerda@gmail.com");
+            mailService.sendMail("ricardosoareslacerda@gmail.com", "Extrato", Normalizer.normalize(this.parseTemplateToStringMail(cardTransactionDTOS), Normalizer.Form.NFD), studentCard.getMail());
         },
         () -> new NotFoundException(1, "Transaction not found"));
     }
