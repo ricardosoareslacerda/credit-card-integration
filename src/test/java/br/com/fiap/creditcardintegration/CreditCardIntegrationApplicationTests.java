@@ -23,7 +23,6 @@ import java.util.Optional;
 @SpringBootTest
 @RequiredArgsConstructor
 @AllArgsConstructor
-//@RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 @SpringJUnitConfig
 class CreditCardIntegrationApplicationTests {
 
@@ -62,7 +61,7 @@ class CreditCardIntegrationApplicationTests {
 				establishmentName("Zé Delivery").
 				value(new BigDecimal(42.00)).
 				installments(new BigDecimal(1)).
-				status(CardTransaction.Status.TRANSACTION_SUCCESS.getDescription()).
+				status(CardTransaction.Status.TRANSACTION_SUCCESS).
 				createdAt("08/04/2022").build();
 	}
 

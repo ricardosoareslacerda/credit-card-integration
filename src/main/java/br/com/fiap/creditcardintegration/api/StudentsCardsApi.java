@@ -29,13 +29,13 @@ public interface StudentsCardsApi {
     @Operation(summary = "Cria um cartão de estudante", description = "Cria um novo cartão de crédito para o estudante", tags={ "students-cards" })
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Operação efetuada com sucesso", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StudentCardDTO.class))),
-        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ErrorResponse.class))) })
+        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiException.class))) })
     @RequestMapping(value = "/students-cards",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
         method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCardDTORequestCreate studentCardDTORequestCreate);
+    ResponseEntity<StudentCardDTO> createStudentCard(@Parameter(in = ParameterIn.DEFAULT, description = "Object responsavel por criar um estudante", schema=@Schema()) @Valid @RequestBody StudentCardDTORequestCreate studentCardDTORequestCreate);
 
 
     @Operation(summary = "Atualiza cartão de aluno", description = "Atualizia um  cartão de crédito o estudante", tags={ "students-cards" })
@@ -50,7 +50,7 @@ public interface StudentsCardsApi {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             method = RequestMethod.PUT)
     @ResponseStatus(value = HttpStatus.OK)
-    ResponseEntity<StudentCardDTO> updatStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard, @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO);
+    ResponseEntity<StudentCardDTO> updatStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "Objeto responsabel por atualizar estudante", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard, @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody StudentCardDTO studentCardDTO);
 
 
     @Operation(summary = "Delete um cartão de aluno", description = "Remoção lógica do cartão de crédito do estudante", tags={ "students-cards" })
@@ -61,7 +61,7 @@ public interface StudentsCardsApi {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
         method = RequestMethod.DELETE)
     @ResponseStatus(value = HttpStatus.OK)
-    ResponseEntity deleteStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
+    ResponseEntity deleteStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "Delecao logico do sistema", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
 
 
     @Operation(summary = "Retorna uma cartão de aluno", description = "Retorna um cartão do estudante", tags={ "students-cards" })
@@ -75,7 +75,7 @@ public interface StudentsCardsApi {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
         method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    ResponseEntity<StudentCardDTO> getStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
+    ResponseEntity<StudentCardDTO> getStudentCard(@DecimalMin("20")@Parameter(in = ParameterIn.PATH, description = "Numero do cartao de credito do estudante", required=true, schema=@Schema()) @PathVariable("registrationsNumberCard") String registrationsNumberCard);
 
     @Operation(summary = "Retorna todos os cartão", description = "Encontra todos os cartão de crédito de estudante, dada a informação no parâmetro", tags={ "students-cards" })
     @ApiResponses(value = {
@@ -88,6 +88,6 @@ public interface StudentsCardsApi {
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
         method = RequestMethod.GET)
     @ResponseStatus(value = HttpStatus.OK)
-    ResponseEntity<StudentsCardsDTO> findAllByActive(@Parameter(in = ParameterIn.QUERY, description = "" ,schema=@Schema()) @Valid @RequestParam(value = "active", required = false) boolean active);
+    ResponseEntity<StudentsCardsDTO> findAllByActive(@Parameter(in = ParameterIn.QUERY, description = "Parametro para busca de estudante ativos" ,schema=@Schema()) @Valid @RequestParam(value = "active", required = false) boolean active);
 }
 

@@ -8,19 +8,19 @@ volumes:
 
 services:
     
-  #credit-card-integration:
-  #container_name: credit-card-integration
-  # restart: always
-  # depends_on:
-  #   - mongodb_cci_fiap
-  # build:
-  #   context: .
-  # ports:
-  #   - "8000:8000"
-  # environment:
-  #   MONGODB_HOST: mongodb_cci_fiap
+  credit-card-integration:
+  container_name: credit-card-integration
+   restart: always
+   depends_on:
+     - mongodb_cci_fiapdb
+   build:
+     context: .
+   ports:
+     - "8000:8000"
+   environment:
+     MONGODB_HOST: mongodb_cci_fiap
 
-  mongodb_cci_fiap:
+  mongodb_cci_fiapdb:
     image: mongo
     container_name: mongodb
     restart: always

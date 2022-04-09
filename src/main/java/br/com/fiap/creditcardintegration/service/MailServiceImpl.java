@@ -17,7 +17,6 @@ public class MailServiceImpl implements MailService {
     private static final Logger log = LoggerFactory.getLogger(MailService.class);
 
     @Autowired
-    //@Qualifier("gmail")
     private JavaMailSender mailSender;
 
     public void sendMail(String from, String subject, String body, String toAddresses) {
