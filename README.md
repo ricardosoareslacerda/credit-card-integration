@@ -1,4 +1,4 @@
-<h1>Desenvolvimento de um Sistema de Cartáo de Crédito - FIAP</h1> 
+<h1>Desenvolvimento de um Sistema de Cartão de Crédito - FIAP</h1> 
 
 <p align="center">
   <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
